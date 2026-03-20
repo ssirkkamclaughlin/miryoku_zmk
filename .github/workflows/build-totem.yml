@@ -12,9 +12,9 @@ jobs:
           path: 'miryoku_zmk'
       - name: build
         run: |
-          cd "${GITHUB_WORKSPACE}/miryoku_zmk"
           git clone -b main --depth 1 https://github.com/zmkfirmware/zmk.git "${GITHUB_WORKSPACE}/zmk"
           git clone -b master --depth 1 https://github.com/GEIGEIGEIST/zmk-config-totem.git "${GITHUB_WORKSPACE}/totem"
+          mkdir -p "${GITHUB_WORKSPACE}/miryoku_zmk/config/boards/shields"
           ln -sr "${GITHUB_WORKSPACE}/totem/config/boards/shields/totem" "${GITHUB_WORKSPACE}/miryoku_zmk/config/boards/shields/totem"
           cd "${GITHUB_WORKSPACE}/zmk"
           west init -l app
@@ -37,9 +37,9 @@ jobs:
           path: 'miryoku_zmk'
       - name: build
         run: |
-          cd "${GITHUB_WORKSPACE}/miryoku_zmk"
           git clone -b main --depth 1 https://github.com/zmkfirmware/zmk.git "${GITHUB_WORKSPACE}/zmk"
           git clone -b master --depth 1 https://github.com/GEIGEIGEIST/zmk-config-totem.git "${GITHUB_WORKSPACE}/totem"
+          mkdir -p "${GITHUB_WORKSPACE}/miryoku_zmk/config/boards/shields"
           ln -sr "${GITHUB_WORKSPACE}/totem/config/boards/shields/totem" "${GITHUB_WORKSPACE}/miryoku_zmk/config/boards/shields/totem"
           cd "${GITHUB_WORKSPACE}/zmk"
           west init -l app
