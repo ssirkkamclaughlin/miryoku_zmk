@@ -1,0 +1,54 @@
+name: 'Build Totem'
+on:
+  workflow_dispatch:
+jobs:
+  build-left:
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: 'miryoku_zmk'
+      - name: build
+        run: |
+          cd "${GITHUB_WORKSPACE}/miryoku_zmk"
+          git clone -b main --depth 1 https://github.com/zmkfirmware/zmk.git "${GITHUB_WORKSPACE}/zmk"
+          git clone -b master --depth 1 https://github.com/GEIGEIGEIST/zmk-config-totem.git "${GITHUB_WORKSPACE}/totem"
+          ln -sr "${GITHUB_WORKSPACE}/totem/config/boards/shields/totem" "${GITHUB_WORKSPACE}/miryoku_zmk/config/boards/shields/totem"
+          cd "${GITHUB_WORKSPACE}/zmk"
+          west init -l app
+          west update
+          west zephyr-export
+          cd app
+          west build -b xiao_ble -S studio-rpc-usb-uart -- -DSHIELD="totem_left" -DZMK_CONFIG="${GITHUB_WORKSPACE}/miryoku_zmk/config"
+          cp build/zephyr/zmk.uf2 "${GITHUB_WORKSPACE}/totem_left.uf2"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: totem_left
+          path: totem_left.uf2
+  build-right:
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: 'miryoku_zmk'
+      - name: build
+        run: |
+          cd "${GITHUB_WORKSPACE}/miryoku_zmk"
+          git clone -b main --depth 1 https://github.com/zmkfirmware/zmk.git "${GITHUB_WORKSPACE}/zmk"
+          git clone -b master --depth 1 https://github.com/GEIGEIGEIST/zmk-config-totem.git "${GITHUB_WORKSPACE}/totem"
+          ln -sr "${GITHUB_WORKSPACE}/totem/config/boards/shields/totem" "${GITHUB_WORKSPACE}/miryoku_zmk/config/boards/shields/totem"
+          cd "${GITHUB_WORKSPACE}/zmk"
+          west init -l app
+          west update
+          west zephyr-export
+          cd app
+          west build -b xiao_ble -- -DSHIELD="totem_right" -DZMK_CONFIG="${GITHUB_WORKSPACE}/miryoku_zmk/config"
+          cp build/zephyr/zmk.uf2 "${GITHUB_WORKSPACE}/totem_right.uf2"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: totem_right
+          path: totem_right.uf2
