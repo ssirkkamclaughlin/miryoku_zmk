@@ -1,0 +1,22 @@
+build-reset:
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: 'miryoku_zmk'
+      - name: build
+        run: |
+          git clone -b main --depth 1 https://github.com/zmkfirmware/zmk.git "${GITHUB_WORKSPACE}/zmk"
+          cd "${GITHUB_WORKSPACE}/zmk"
+          west init -l app
+          west update
+          west zephyr-export
+          cd app
+          west build -b xiao_ble -- -DSHIELD="settings_reset"
+          cp build/zephyr/zmk.uf2 "${GITHUB_WORKSPACE}/settings_reset.uf2"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: settings_reset
+          path: settings_reset.uf2
