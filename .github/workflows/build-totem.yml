@@ -13,7 +13,7 @@ jobs:
       - name: build
         run: |
           git clone -b main --depth 1 https://github.com/zmkfirmware/zmk.git "${GITHUB_WORKSPACE}/zmk"
-          git clone -b master --depth 1 https://github.com/GEIGEIGEIST/zmk-config-totem.git "${GITHUB_WORKSPACE}/totem"
+          git clone -b main --depth 1 https://github.com/Keycoon/zmk-config-totem.git "${GITHUB_WORKSPACE}/totem"
           mkdir -p "${GITHUB_WORKSPACE}/miryoku_zmk/config/boards/shields"
           ln -sr "${GITHUB_WORKSPACE}/totem/config/boards/shields/totem" "${GITHUB_WORKSPACE}/miryoku_zmk/config/boards/shields/totem"
           cd "${GITHUB_WORKSPACE}/zmk"
@@ -38,7 +38,7 @@ jobs:
       - name: build
         run: |
           git clone -b main --depth 1 https://github.com/zmkfirmware/zmk.git "${GITHUB_WORKSPACE}/zmk"
-          git clone -b master --depth 1 https://github.com/GEIGEIGEIST/zmk-config-totem.git "${GITHUB_WORKSPACE}/totem"
+          git clone -b main --depth 1 https://github.com/Keycoon/zmk-config-totem.git "${GITHUB_WORKSPACE}/totem"
           mkdir -p "${GITHUB_WORKSPACE}/miryoku_zmk/config/boards/shields"
           ln -sr "${GITHUB_WORKSPACE}/totem/config/boards/shields/totem" "${GITHUB_WORKSPACE}/miryoku_zmk/config/boards/shields/totem"
           cd "${GITHUB_WORKSPACE}/zmk"
